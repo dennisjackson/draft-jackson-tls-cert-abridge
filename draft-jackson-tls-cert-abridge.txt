@@ -222,6 +222,21 @@ Table of Contents
 
                                   Table 1
 
+   Performance is also greatly enhanced at the tails.  For the optimized
+   implementation:
+
+          +============+==========+============+===============+
+          | Percentile | Original | This Draft | Relative Size |
+          +============+==========+============+===============+
+          | 5th        | 2755     | 641        | 23%           |
+          +------------+----------+------------+---------------+
+          | 50th       | 4022     | 949        | 24%           |
+          +------------+----------+------------+---------------+
+          | 95th       | 5801     | 1613       | 28%           |
+          +------------+----------+------------+---------------+
+
+                                 Table 2
+
 5.   Deployment Considerations
 
    As of May 2023 this listing from the CCADB currently occupies 2.6 MB

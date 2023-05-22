@@ -1402,6 +1402,38 @@ It can likely be deployed as-is with minimal changes to all existing implementat
           </tr>
         </tbody>
       </table>
+<p id="section-4-3">Performance is also greatly enhanced at the tails. For the optimized implementation:<a href="#section-4-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+        <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Percentile</th>
+            <th class="text-left" rowspan="1" colspan="1">Original</th>
+            <th class="text-left" rowspan="1" colspan="1">This Draft</th>
+            <th class="text-left" rowspan="1" colspan="1">Relative Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">5th</td>
+            <td class="text-left" rowspan="1" colspan="1">2755</td>
+            <td class="text-left" rowspan="1" colspan="1">641</td>
+            <td class="text-left" rowspan="1" colspan="1">23%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">50th</td>
+            <td class="text-left" rowspan="1" colspan="1">4022</td>
+            <td class="text-left" rowspan="1" colspan="1">949</td>
+            <td class="text-left" rowspan="1" colspan="1">24%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">95th</td>
+            <td class="text-left" rowspan="1" colspan="1">5801</td>
+            <td class="text-left" rowspan="1" colspan="1">1613</td>
+            <td class="text-left" rowspan="1" colspan="1">28%</td>
+          </tr>
+        </tbody>
+      </table>
 </section>
 </div>
 <div id="deployment-considerations">
