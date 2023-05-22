@@ -197,14 +197,30 @@ Table of Contents
    This draft is very much a work in progress, however a preliminary
    evaluation based on a few thousand certificate chains is available.
 
-   | Compression Method | Median Size (Bytes) | Relative Size | |-------
-   -------------------------------------------------|-------------------
-   --|---------------| | Original, without any form of compression |
-   4022 | 100% | | Using TLS Certificate Compression with zstd | 3335 |
-   83% | | Transmitting only the End-Entity TLS Certificate | 1664 |
-   41% | | TLS Cert Compression & Only End-Entity TLS Certificate |
-   1469 | 37% | | **This Draft, Naive Implementation** | 1351 | 34% | |
-   **This Draft, Optimized Implementation** | 949 | 24% |
+   +=============================+=====================+===============+
+   | Compression Method          | Median Size (Bytes) | Relative      |
+   |                             |                     | Size          |
+   +=============================+=====================+===============+
+   | Original, without any form  | 4022                | 100%          |
+   | of compression              |                     |               |
+   +-----------------------------+---------------------+---------------+
+   | Using TLS Certificate       | 3335                | 83%           |
+   | Compression with zstd       |                     |               |
+   +-----------------------------+---------------------+---------------+
+   | Transmitting only the End-  | 1664                | 41%           |
+   | Entity TLS Certificate      |                     |               |
+   +-----------------------------+---------------------+---------------+
+   | TLS Cert Compression & Only | 1469                | 37%           |
+   | End-Entity TLS Certificate  |                     |               |
+   +-----------------------------+---------------------+---------------+
+   | *This Draft, Naive          | 1351                | 34%           |
+   | Implementation*             |                     |               |
+   +-----------------------------+---------------------+---------------+
+   | *This Draft, Optimized      | 949                 | 24%           |
+   | Implementation*             |                     |               |
+   +-----------------------------+---------------------+---------------+
+
+                                  Table 1
 
 5.   Deployment Considerations
 

@@ -1356,16 +1356,52 @@ It can likely be deployed as-is with minimal changes to all existing implementat
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-expected-benefits" class="section-name selfRef">Expected Benefits</a>
       </h2>
 <p id="section-4-1">This draft is very much a work in progress, however a preliminary evaluation based on a few thousand certificate chains is available.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2"><code>
-| Compression Method                                     | Median Size (Bytes) | Relative Size |
-|--------------------------------------------------------|---------------------|---------------|
-| Original, without any form of compression              | 4022                | 100%          |
-| Using TLS Certificate Compression with zstd            | 3335                | 83%           |
-| Transmitting only the End-Entity TLS Certificate       | 1664                | 41%           |
-| TLS Cert Compression &amp; Only End-Entity TLS Certificate | 1469                | 37%           |
-| **This Draft, Naive Implementation**                   | 1351                | 34%           |
-| **This Draft, Optimized Implementation**               | 949                 | 24%           |
-</code><a href="#section-4-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Compression Method</th>
+            <th class="text-left" rowspan="1" colspan="1">Median Size (Bytes)</th>
+            <th class="text-left" rowspan="1" colspan="1">Relative Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Original, without any form of compression</td>
+            <td class="text-left" rowspan="1" colspan="1">4022</td>
+            <td class="text-left" rowspan="1" colspan="1">100%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Using TLS Certificate Compression with zstd</td>
+            <td class="text-left" rowspan="1" colspan="1">3335</td>
+            <td class="text-left" rowspan="1" colspan="1">83%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Transmitting only the End-Entity TLS Certificate</td>
+            <td class="text-left" rowspan="1" colspan="1">1664</td>
+            <td class="text-left" rowspan="1" colspan="1">41%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TLS Cert Compression &amp; Only End-Entity TLS Certificate</td>
+            <td class="text-left" rowspan="1" colspan="1">1469</td>
+            <td class="text-left" rowspan="1" colspan="1">37%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <strong>This Draft, Naive Implementation</strong>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">1351</td>
+            <td class="text-left" rowspan="1" colspan="1">34%</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">
+              <strong>This Draft, Optimized Implementation</strong>
+</td>
+            <td class="text-left" rowspan="1" colspan="1">949</td>
+            <td class="text-left" rowspan="1" colspan="1">24%</td>
+          </tr>
+        </tbody>
+      </table>
 </section>
 </div>
 <div id="deployment-considerations">
