@@ -648,19 +648,19 @@ B.1.  CCADB Churn
 
    Typically around 10 or so new root certificates are introduced to the
    WebPKI each year.  The various root programs restrict the lifetimes
-   of these certificates, Microsoft to between 8 and 25 years 3.A.3
+   of these certificates, Microsoft to between 8 and 25 years (3.A.3
    (https://learn.microsoft.com/en-us/security/trusted-root/program-
-   requirements), Mozilla to between 0 and 14 years Wiki page
-   (https://wiki.mozilla.org/CA/Root_CA_Lifecycles).  Chrome has
-   proposed a maximum lifetime of 7 years in the future (Update
+   requirements)), Mozilla to between 0 and 14 years (Summary
+   (https://wiki.mozilla.org/CA/Root_CA_Lifecycles)).  Chrome has
+   proposed a maximum lifetime of 7 years in the future (Blog Post
    (https://www.chromium.org/Home/chromium-security/root-ca-policy/
    moving-forward-together/)).  Some major CAs have objected to this
    proposed policy as the root inclusion process currently takes around
-   3 years from start to finish Digicert Blog
+   3 years from start to finish (Digicert Blog
    (https://www.digicert.com/blog/googles-moving-forward-together-
-   proposals-for-root-ca-policy).  Similarly, Mozilla requires CAs to
-   apply to renew their roots with at least 2 years notice Wiki page
-   (https://wiki.mozilla.org/CA/Root_CA_Lifecycles).
+   proposals-for-root-ca-policy)).  Similarly, Mozilla requires CAs to
+   apply to renew their roots with at least 2 years notice (Summary
+   (https://wiki.mozilla.org/CA/Root_CA_Lifecycles)).
 
    Typically around 100 to 200 new WebPKI intermediate certificates are
    issued each year.  No WebPKI root program currently limits the
