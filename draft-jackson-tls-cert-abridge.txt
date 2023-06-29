@@ -8,7 +8,7 @@ Intended status: Experimental                               29 June 2023
 Expires: 31 December 2023
 
 
-            Abridged Certificate Compression for the WebPKI
+              Abridged Compression for WebPKI Certificates
                  draft-jackson-tls-cert-abridge-latest
 
 Abstract
@@ -332,8 +332,8 @@ Table of Contents
 
        1.  If so, replace the opaque cert_data member of
            CertificateEntry with its adjusted three byte identifier and
-           copy the `CertificateEntry structure with corrected lengths
-           to the output.
+           copy the CertificateEntry structure with corrected lengths to
+           the output.
 
        2.  Otherwise, copy the CertificateEntry to the output.
 
