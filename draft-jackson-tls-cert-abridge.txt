@@ -229,6 +229,9 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
+   This draft refers to dates in Internet Date/Time Format as specified
+   in Section 5.6 of [DATES] without the optional T separator.
+
 3.   Abridged Compression Scheme
 
    This section describes a compression scheme suitable for compressing
@@ -241,6 +244,15 @@ Table of Contents
 
    *TODO:* Abridged is a placeholder name until someone comes up with a
    better one.
+
+   The compression scheme in this draft has a number of parameters as
+   listed below.  Future versions of this draft would use different
+   values for these parameters and use a different TLS Certificate
+   Compression scheme code point.
+
+   *  CCADB_SNAPSHOT_TIME - 2023-01-01 00:00:00Z
+
+   *  CT_CERT_WINDOW - 2022-12-01 00:00:00Z to 2023-01-01 00:00:00Z
 
 3.1.  Pass 1: Intermediate and Root Compression
 
@@ -267,22 +279,21 @@ Table of Contents
    TLS Server Authentication, occupying 2.6 MB of disk space.  As this
    listing changes rarely and new inclusions typically join the CCADB
    listing year or more before they can be deployed on the web, the
-   listing used in this draft will be those certificates included in the
-   CCADB on the 1st of January 2023.  Further versions of this draft may
-   provide for a listing on a new cutoff date or according to a
+   listing used in this draft will be the relevant certificates included
+   in the CCADB at CCADB_SNAPSHOT_TIME.  Further versions of this draft
+   may provide for a listing on a new cutoff date or according to a
    different criteria for inclusion.
 
    *DISCUSS:* Is minting a new draft every year or two acceptable?  If
    not, this draft could be redesigned as its own extension and
    negotiate the available dictionaries which could then change
-   dynamically.  A sketch of that approach is discussed in Appendix B
-   below.
+   dynamically.  A sketch of that approach is discussed in Appendix B.
 
    The algorithm for enumerating the list of compressible intermediate
    and root certificates is given below:
 
    1.  Query the CCADB for all known root and intermediate certificates
-       [CCADBAllCerts]
+       [CCADBAllCerts] as of CCADB_SNAPSHOT_TIME
 
    2.  Remove all certificates which have the extendedKeyUsage extension
        without the TLS Server Authentication bit or anyExtendedKeyUsage
@@ -309,9 +320,8 @@ Table of Contents
        constant 0x99 and its index in the list represented as a uint16.
 
    *DISCUSS*: In the future, CCADB may expose such a listing directly.
-   The list of included root programs might also benefit from being
-   widened.  A subset of these lists is available in benchmarks/data in
-   the draft Github repository.
+   A subset of these lists is available in benchmarks/data in the draft
+   Github repository.
 
 3.1.2.  Compression of CA Certificates in Certificate Chain
 
@@ -385,10 +395,10 @@ Table of Contents
    of log identifiers.  Order them lexicographically.
 
    Finally, enumerate all certificates contained within certificate
-   transparency logs above and issued between 01.12.22 and 01.12.23.
-   For each issuer in the listing in Section 3.1.1, select the end-
-   entity certificate with the lowest serial number.  Extract the
-   following extensions from the end-entity certificate:
+   transparency logs above and issued during CT_CERT_WINDOW.  For each
+   issuer in the listing in Section 3.1.1, select the end-entity
+   certificate with the lowest serial number.  Extract the following
+   extensions from the end-entity certificate:
 
    *  FreshestCRL
 
@@ -501,6 +511,10 @@ Table of Contents
               Certificates Listing", 5 June 2023,
               <https://ccadb.my.salesforce-sites.com/ccadb/
               AllCertificateRecordsCSVFormat>.
+
+   [DATES]    Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/rfc/rfc3339>.
 
    [GoogleCTLogs]
               Google, "Certificate Transparency Logs trusted by Google",
