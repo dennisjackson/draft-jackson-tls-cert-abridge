@@ -375,10 +375,10 @@ Table of Contents
    each stage being concatenated with the next.
 
    Firstly, for each intermediate certificate enumerated in the listing
-   in Section 3.1.1., extract the issuer field (4.1.2.4 of [RFC5280])
-   and derive the matching authority key identifier (4.2.1.1. of
-   [RFC5280]) for the certificate.  Order them according to the listing
-   in Section 3.1.1.
+   in Section 3.1.1., extract the issuer field (Section 4.1.2.4 of
+   [RFC5280]) and derive the matching authority key identifier
+   (Section 4.2.1.1 of [RFC5280]) for the certificate.  Order them
+   according to the listing in Section 3.1.1.
 
    Secondly, take the listing of certificate transparency logs trusted
    by major browsers [AppleCTLogs] [GoogleCTLogs] and extract the list
@@ -388,10 +388,18 @@ Table of Contents
    transparency logs above and issued between 01.12.22 and 01.12.23.
    For each issuer in the listing in Section 3.1.1, select the end-
    entity certificate with the lowest serial number.  Extract the
-   following extensions from the end-entity certificate: * FreshestCRL,
-   * CertificatePolicies * CRLDistributionPoints *
-   AuthorityInformationAccess If no end-entity certificate can be found
-   for an issuer with this process, omit the entry for that issuer.
+   following extensions from the end-entity certificate:
+
+   *  FreshestCRL
+
+   *  CertificatePolicies
+
+   *  CRLDistributionPoints
+
+   *  AuthorityInformationAccess
+
+   If no end-entity certificate can be found for an issuer with this
+   process, omit the entry for that issuer.
 
    *DISCUSS:* This dictionary occupies ~ 65 KB of space.  A comparison
    of this approach with a conventional trained dictionary is in
@@ -401,9 +409,21 @@ Table of Contents
 
    The resulting bytes from Pass 1 are passed to ZStandard [ZSTD] with
    the dictionary specified in the previous section.  It is RECOMMENDED
-   that the compressor (i.e. the server) use the following parameters: *
-   chain_log=30 * search_log=30 * hash_log=30 * target_length=6000 *
-   threads=1 * compression_level=22 * force_max_window=1
+   that the compressor (i.e. the server) use the following parameters:
+
+   *  chain_log=30
+
+   *  search_log=30
+
+   *  hash_log=30
+
+   *  target_length=6000
+
+   *  threads=1
+
+   *  compression_level=22
+
+   *  force_max_window=1
 
    These parameters are recommended in order to achieve the best
    compression ratio however implementations MAY use their preferred
@@ -461,7 +481,7 @@ Table of Contents
    subset or superset of the CCADB list and revocation of trust in a CA
    does not impact the operation of this compression scheme.  Similarly,
    servers who use roots or intermediates outside the CCADB can still
-   offer the scheme and benefit from it
+   offer the scheme and benefit from it.
 
 6.  IANA Considerations
 
