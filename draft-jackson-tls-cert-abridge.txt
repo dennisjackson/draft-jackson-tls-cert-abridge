@@ -110,12 +110,12 @@ Table of Contents
    When a server responds to a TLS Client Hello, its initial flight of
    packets is limited in size by the underlying transport protocol.  If
    the initial flight of packets exceeds the size limit, the server must
-   wait for the client to acknowledge receipt, incurring the latency
-   penalty of an additional round trip before the handshake can
-   complete.  For TLS handshakes over TCP, the maximum size of the
-   server’s initial flight is typically around 14,500 bytes.  For TLS
-   handshakes in QUIC, the limit is much lower at a maximum of 4500
-   bytes ([RFC9000], Section 8.1).
+   wait for the client to acknowledge receipt, incurring the additional
+   latency of a round trip before the handshake can complete.  For TLS
+   handshakes over TCP, the maximum size of the server’s initial flight
+   is typically around 14,500 bytes.  For TLS handshakes in QUIC, the
+   limit is much lower at a maximum of 4500 bytes ([RFC9000],
+   Section 8.1).
 
    The existing compression schemes used in [TLSCertCompress] have been
    shown to deliver a substantial improvement in QUIC handshake latency
@@ -128,22 +128,22 @@ Table of Contents
    [PQStudy] have shown that post-quantum certificate transmission
    becomes the dominant source of latency in PQ TLS with certificate
    chains alone expected to exceed even the TCP initial flight limit.
-   This motivates alternative designs for reducing the on-wire size of
+   This motivates alternative designs for reducing the wire size of
    post-quantum certificate chains.
 
 1.2.  Overview
 
-   This draft introduces a new TLS Certificate Compression scheme which
-   is intended specifically for use on the WebPKI.  It makes used of a
-   shared dictionary between client and server consisting of all
-   intermediate and root certificates contained in the root stores of
-   major browsers sourced from the Common CA Database [CCADB].  As of
-   May 2023, this dictionary would be 2.6 MB in size and consist of
-   roughly 1500 intermediate certificates and 150 root certificates.
-   The disk footprint can be reduced to effectively zero as many clients
-   (such as Mozilla Firefox & Google Chrome) are already provisioned
-   with their trusted intermediate and root certificates for
-   compatibility and performance reasons.
+   This draft introduces a new compression scheme which is intended
+   specifically for use in TLS Certificate Compression for WebPKI
+   applications.  It makes used of a shared dictionary between client
+   and server consisting of all intermediate and root certificates
+   contained in the root stores of major browsers sourced from the
+   Common CA Database [CCADB].  As of May 2023, this dictionary would be
+   2.6 MB in size and consist of roughly 1500 intermediate certificates
+   and 150 root certificates.  The disk footprint can be reduced to
+   effectively zero as many clients (such as Mozilla Firefox & Google
+   Chrome) are already provisioned with their trusted intermediate and
+   root certificates for compatibility and performance reasons.
 
    Using a shared dictionary allows for this compression scheme to
    deliver dramatically more effective compression, reducing an entire
@@ -168,14 +168,15 @@ Table of Contents
    scheme whilst only trusting a subset of the certificates in the CCADB
    snapshot, similarly a server can offer this compression scheme whilst
    using a certificate chain which does not chain back to a WebPKI root.
-   Similarly, a new root or intermediate can be included in CCADB and
-   static dictionary at the start of their application to the root store
-   and if their application is approved will benefit from this
-   compression scheme from the very first day of trust.  As a result
-   this scheme is equitable in so far as it provides equal benefits for
-   all CAs in the WebPKI, doesn't privilege any particular end-entity
-   certificate or website and allows WebPKI clients to make individual
-   trust decisions without fear of breakage.
+   Further, a new root certificates are typically included in the CCADB
+   at the start of their application to the root store, a process which
+   typically takes more than a year and so if their application is
+   approved will benefit from this compression scheme from the very
+   first day of use on the web.  As a result this scheme is equitable in
+   so far as it provides equal benefits for all CAs in the WebPKI,
+   doesn't privilege any particular end-entity certificate or website
+   and allows WebPKI clients to make individual trust decisions without
+   fear of breakage.
 
 1.3.  Relationship to other drafts
 
@@ -237,7 +238,7 @@ Table of Contents
    This section describes a compression scheme suitable for compressing
    certificate chains used in TLS.  The scheme is defined in two parts.
    An initial pass compressing known intermediate and root certificates
-   and then a subsequent pass compressing the end-entity certificates.
+   and then a subsequent pass compressing the end-entity certificate.
    This scheme is used by performing the compression step of Pass 1 and
    then the compression step of Pass 2.  Decompression is performed in
    the reverse order.
@@ -281,8 +282,8 @@ Table of Contents
    listing year or more before they can be deployed on the web, the
    listing used in this draft will be the relevant certificates included
    in the CCADB at CCADB_SNAPSHOT_TIME.  Further versions of this draft
-   may provide for a listing on a new cutoff date or according to a
-   different criteria for inclusion.
+   may provide for a listing using a newer snapshot date or according to
+   a different criteria for inclusion.
 
    *DISCUSS:* Is minting a new draft every year or two acceptable?  If
    not, this draft could be redesigned as its own extension and
@@ -306,11 +307,11 @@ Table of Contents
        process of applying to be trusted by at least one of the
        following Root Programs: Mozilla, Google, Microsoft, Apple.
 
-   5.  Remove all intermediate certificates whose parent root
-       certificates are no longer in the listing.
+   5.  Remove all intermediate certificates who are not signed by root
+       certificates still in the listing.
 
-   6.  Remove any certificates which are duplicates (have the same
-       representation as as sequence of DER bytes)
+   6.  Remove any certificates which are duplicates (have the same DER
+       representation)
 
    7.  Order the list by the notBefore date of each certificate,
        breaking ties with the lexicographic ordering of the SHA256
@@ -345,7 +346,7 @@ Table of Contents
            copy the CertificateEntry structure with corrected lengths to
            the output.
 
-       2.  Otherwise, copy the CertificateEntry to the output.
+       2.  Otherwise, copy the CertificateEntry entry to the output.
 
    3.  Prepend the correct length information for the Certificate
        message.
@@ -356,14 +357,16 @@ Table of Contents
 
    The decompression algorithm is simply repeating the above steps but
    swapping any recognized three-byte identifier in a cert_data field
-   with the DER representation of the associated certificate.
+   with the DER representation of the associated certificate and
+   correcting the length field.
 
 3.2.  Pass 2: End-Entity Compression
 
    This section describes a pass based on Zstandard [ZSTD] with
    application-specified dictionaries.  The dictionary is constructed
    with reference to the list of intermediate and root certificates
-   discussed earlier in Section 3.1.1.
+   discussed earlier in Section 3.1.1, as well as several external
+   sources of information.
 
    *DISCUSS:* This draft is largely agnostic as to which underlying
    compression scheme is used as long as it supports dictionaries.  Is
@@ -391,25 +394,28 @@ Table of Contents
    according to the listing in Section 3.1.1.
 
    Secondly, take the listing of certificate transparency logs trusted
-   by major browsers [AppleCTLogs] [GoogleCTLogs] and extract the list
-   of log identifiers.  Order them lexicographically.
+   by major browsers [AppleCTLogs] [GoogleCTLogs] as of
+   CCADB_SNAPSHOT_TIME and extract the list of log identifiers.  Order
+   them lexicographically.
 
    Finally, enumerate all certificates contained within certificate
    transparency logs above and issued during CT_CERT_WINDOW.  For each
-   issuer in the listing in Section 3.1.1, select the end-entity
-   certificate with the lowest serial number.  Extract the following
-   extensions from the end-entity certificate:
+   issuer in the listing in Section 3.1.1, select the witnessed end-
+   entity certificate with the lowest serial number.  Extract the
+   contents of the following extensions from the end-entity certificate:
 
-   *  FreshestCRL
+   *  Authority Information Access (Section 4.2.2.1 of [RFC5280])
 
-   *  CertificatePolicies
+   *  Certificate Policies (Section 4.2.1.4 of [RFC5280])
 
-   *  CRLDistributionPoints
+   *  CRL Distribution Points (Section 4.2.1.13 of [RFC5280])
 
-   *  AuthorityInformationAccess
+   *  Freshest CRL (Section 4.2.1.15 of [RFC5280])
 
-   If no end-entity certificate can be found for an issuer with this
-   process, omit the entry for that issuer.
+   Concatenate the byte representation of each extension (including
+   extension id and length) and copy it to the output.  If no end-entity
+   certificate can be found for an issuer with this process, omit the
+   entry for that issuer.
 
    *DISCUSS:* This dictionary occupies ~ 65 KB of space.  A comparison
    of this approach with a conventional trained dictionary is in
@@ -482,7 +488,21 @@ Table of Contents
 
                                   Table 1
 
+   *TODO:* By improving the construction of the shared dictionary in
+   pass 2, we ought to be able to match the wire size of the opaque
+   trained dictionary, albeit likely with a much larger storage
+   footprint in order to fairly treat each CA.
+
 5.  Security Considerations
+
+   This draft does not introduce new security considerations for TLS,
+   except for the considerations already identified in
+   [TLSCertCompress].  In particular incorrect compression or
+   decompression will lead to the TLS connection failing as the two
+   parties will not agree on the transcript and the server's transcript
+   never includes the result of the compressed certificate chain.
+   However, implementors SHOULD use a memory-safe language to implement
+   this compression scheme.
 
    Note that as this draft specifies a compression scheme, it does not
    impact the negotiation of trust between clients and servers and is
@@ -619,7 +639,8 @@ Table of Contents
 
 Appendix A.  Acknowledgments
 
-   *TODO*
+   The authors thank Martin Thomson and Kathleen Wilson for feedback on
+   early versions of this document.
 
 Appendix B.  CCADB Churn and Dictionary Negotiation
 
@@ -650,33 +671,13 @@ B.1.  CCADB Churn
    lifetimes.  Chrome's Root Program has proposed that Intermediate
    Certificates be limited to 3 years in the future (Update
    (https://www.chromium.org/Home/chromium-security/root-ca-policy/
-   moving-forward-together/)).
-
-   Disclosure required as of July 2022 (Mozilla Root Program
-   Section 5.3.2 (https://www.mozilla.org/en-
-   US/about/governance/policies/security-group/certs/policy/#53-
-   intermediate-certificates)) - within a week of creation and prior to
-   usage.  Chrome require three weeks notice before a new intermediate
-   is issued to a new organization.  Policy
-   (https://www.chromium.org/Home/chromium-security/root-ca-policy/)
-
-   *  CCADB Cert Listings (https://www.ccadb.org/resources)
-
-   *  Mozilla Cert Listings (https://wiki.mozilla.org/CA/
-      Intermediate_Certificates)
-
-   *  Firefox Distributed Intermediate Certs Listing
-      (https://firefox.settings.services.mozilla.com/v1/buckets/
-      security-state/collections/intermediates/records)
-
-   *  All Public Intermediate Certs (https://ccadb.my.salesforce-
-      sites.com/mozilla/PublicAllIntermediateCerts)
-
-   *  Mozilla In Progress Root Inclusions (https://ccadb.my.salesforce-
-      sites.com/mozilla/UpcomingRootInclusionsReport)
-
-   *  Mozilla Roots in Firefox (https://ccadb.my.salesforce-
-      sites.com/mozilla/CACertificatesInFirefoxReport)
+   moving-forward-together/)).  However, the motivation for this
+   requirement is unclear.  Unlike root certificates, intermediate
+   certificates are only required to be disclosed with a month's notice
+   to the CCADB (Mozilla Root Program Section 5.3.2
+   (https://www.mozilla.org/en-US/about/governance/policies/security-
+   group/certs/policy/#53-intermediate-certificates), Chrome Policy
+   (https://www.chromium.org/Home/chromium-security/root-ca-policy/)).
 
 B.2.  Dictionary Negotiation
 
@@ -690,24 +691,29 @@ B.2.  Dictionary Negotiation
    *DISCUSS:* A sketch for how dictionary negotiation might work is
    below.
 
-   A dictionary is identified by two bytes, with a further two bytes for
-   the major version and two more for the minor version.  Whenever a new
-   version of a dictionary is issued with only additions of new
-   certificates, it requires a minor version bump.  Whenever a new
-   version of a dictionary is issued with any removals, it requires a
-   major version bump.
+   This draft would instead define a new extension, which would define
+   TLS Certificate Compression with ZStandard Dictionaries.
+   Dictionaries would be identified by an IANA-assigned identifier of
+   two bytes, with a further two bytes for the major version and two
+   more for the minor version.  Adding new certificates to a dictionary
+   listing would require a minor version bump.  Removing certificates or
+   changing the pass 2 dictionary would require a major version bump.
 
    The client lists their known dictionaries in an extension in the
-   ClientHello.  The client need only advertise the highest known minor
-   version for any major version of a dictionary they are willing to
-   offer.  The server may select any dictionary it has a copy of with
-   matching identifier and major version number and minor version number
-   not greater than the client's minor version number.
+   ClientHello.  The client need only retain and advertise the highest
+   known minor version for any major version of a dictionary they are
+   willing to offer.  The server may select any dictionary it has a copy
+   of with matching identifier, matching major version number and a
+   minor version number not greater than the client's minor version
+   number.
 
    The expectation would be that new minor versions would be issued
    monthly or quarterly, with new major versions only every year or
    multiple years.  This reflects the relative rates of when
-   certificates are added or removed to the CCADB listing.
+   certificates are added or removed to the CCADB listing.  This means
+   in practice clients would likely offer a single dictionary containing
+   their latest known version.  Servers would only need to update their
+   dictionaries yearly when a new major version is produced.
 
 Author's Address
 
