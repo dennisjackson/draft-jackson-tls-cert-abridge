@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-06-29T00:44:17.574129+00:00",
+  "timestamp": "2023-07-02T00:48:03.012127+00:00",
   "repo": "dennisjackson/draft-jackson-tls-cert-abridge",
   "labels": [
     {
@@ -49,6 +49,146 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
-  "pulls": []
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOJmBpI85qGCYf",
+      "title": "Dates (RFC 3339)",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/issues/3",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I don't know how to interpret \"01.12.22\" as currently used.  I'm not completely sure how to correct it, even, though I can guess.",
+      "createdAt": "2023-06-29T01:19:04Z",
+      "updatedAt": "2023-06-29T10:37:15Z",
+      "closedAt": "2023-06-29T10:37:15Z",
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOJmBpI85qGCf-",
+      "title": "Length prefix compressed part",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/issues/4",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "RFC 8879 includes a length prefix so that the recipient doesn't have to commit unbounded memory for certificates.  Is that the goal here also?  It might be good to say.",
+      "createdAt": "2023-06-29T01:19:58Z",
+      "updatedAt": "2023-06-29T09:59:34Z",
+      "closedAt": "2023-06-29T09:59:34Z",
+      "comments": [
+        {
+          "author": "dennisjackson",
+          "authorAssociation": "OWNER",
+          "body": " RFC 8879 handles the length prefix and compression algorithm negotiation. For the individual compression algorithms, it just points to specs like RFC 8478 (ZStandard) which aren't aware of any of the TLS packaging. So I think the natural thing to do here is just define the compression algorithm as 8478 does and leave the bookkeeping to 8879. \r\n\r\n> If the specified compression algorithm is zstd, the Certificate message MUST be compressed with the Zstandard compression algorithm, as defined in RFC8478",
+          "createdAt": "2023-06-29T09:59:34Z",
+          "updatedAt": "2023-06-29T09:59:34Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOJmBpI85UMlPn",
+      "title": "Markdown-related tweaks",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/pull/1",
+      "state": "MERGED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reference format.\r\nList format.\r\nA period at the end of a sentence.",
+      "createdAt": "2023-06-29T01:16:39Z",
+      "updatedAt": "2023-06-29T09:34:02Z",
+      "baseRepository": "dennisjackson/draft-jackson-tls-cert-abridge",
+      "baseRefName": "main",
+      "baseRefOid": "5b024835a075af5dfa2fefa74815acda39db9571",
+      "headRepository": "martinthomson/cert-abridge",
+      "headRefName": "md-stuff",
+      "headRefOid": "dea5870aeee6647c3963b2624cd8be874ab41075",
+      "closedAt": "2023-06-29T09:34:01Z",
+      "mergedAt": "2023-06-29T09:34:01Z",
+      "mergedBy": "dennisjackson",
+      "mergeCommit": {
+        "oid": "6f503cba4ddff7729f7f0ace828d203b32904daa"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJmBpI85Zs0WR",
+          "commit": {
+            "abbreviatedOid": "dea5870"
+          },
+          "author": "dennisjackson",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-06-29T09:32:10Z",
+          "updatedAt": "2023-06-29T09:32:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOJmBpI85UMlQX",
+      "title": "Title suggestion",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/pull/2",
+      "state": "MERGED",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-29T01:16:44Z",
+      "updatedAt": "2023-06-29T10:01:21Z",
+      "baseRepository": "dennisjackson/draft-jackson-tls-cert-abridge",
+      "baseRefName": "main",
+      "baseRefOid": "5b024835a075af5dfa2fefa74815acda39db9571",
+      "headRepository": "martinthomson/cert-abridge",
+      "headRefName": "title",
+      "headRefOid": "22103b4c5b4078542a79820564879f6a262515fc",
+      "closedAt": "2023-06-29T10:01:20Z",
+      "mergedAt": "2023-06-29T10:01:20Z",
+      "mergedBy": "dennisjackson",
+      "mergeCommit": {
+        "oid": "ddbb88e1210e1da02d0ce3bfbe7cd80dd134baf6"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOJmBpI85UOjEw",
+      "title": "Format dates according to RFC 3339",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/pull/5",
+      "state": "MERGED",
+      "author": "dennisjackson",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #3 ",
+      "createdAt": "2023-06-29T10:34:51Z",
+      "updatedAt": "2023-06-29T10:37:14Z",
+      "baseRepository": "dennisjackson/draft-jackson-tls-cert-abridge",
+      "baseRefName": "main",
+      "baseRefOid": "ddbb88e1210e1da02d0ce3bfbe7cd80dd134baf6",
+      "headRepository": "dennisjackson/draft-jackson-tls-cert-abridge",
+      "headRefName": "dates",
+      "headRefOid": "a80cd619b7d4c6739a8fb09e8370068f49699352",
+      "closedAt": "2023-06-29T10:37:13Z",
+      "mergedAt": "2023-06-29T10:37:13Z",
+      "mergedBy": "dennisjackson",
+      "mergeCommit": {
+        "oid": "1cc052b1582a10a595556855ae7cbecd855cd504"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
