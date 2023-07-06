@@ -707,9 +707,9 @@ Table of Contents
               2020, <https://www.rfc-editor.org/rfc/rfc8879>.
 
    [ZSTD]     Collet, Y. and M. Kucherawy, Ed., "Zstandard Compression
-              and the application/zstd Media Type", RFC 8478,
-              DOI 10.17487/RFC8478, October 2018,
-              <https://www.rfc-editor.org/rfc/rfc8478>.
+              and the 'application/zstd' Media Type", RFC 8878,
+              DOI 10.17487/RFC8878, February 2021,
+              <https://www.rfc-editor.org/rfc/rfc8878>.
 
 8.2.  Informative References
 
