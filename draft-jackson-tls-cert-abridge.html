@@ -7,7 +7,7 @@
 <title>Abridged Compression for WebPKI Certificates</title>
 <meta content="Dennis Jackson" name="author">
 <meta content="
-       This draft defines a new TLS Certificate Compression scheme which uses a predistributed dictionary of root and intermediate WebPKI certificates.  The scheme effectively removes the root and intermediate certificates from the TLS certificate chain, which smooths the transition to post-quantum certificates. It also achieves a substantial improvement over existing certificate compression schemes whilst treating CAs and website operators equitably and avoiding any new error handling flows. It may also be of interest in other situations where certificate chains are stored, e.g. Certificate Transparency logs. 
+       This draft defines a new TLS Certificate Compression scheme which uses a shared dictionary of root and intermediate WebPKI certificates. The scheme smooths the transition to post-quantum certificates by eliminating the root and intermediate certificates from the TLS certificate chain without impacting trust negotiation. It also delivers better compression than alternative proposals whilst ensuring fair treatment for both CAs and website operators. It may also be useful in other applications which store certificate chains, e.g. Certificate Transparency logs. 
     " name="description">
 <meta content="xml2rfc 3.17.4" name="generator">
 <meta content="draft-jackson-tls-cert-abridge-latest" name="ietf.draft">
@@ -1081,7 +1081,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Abridged Compression for WebPKI Certificates</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This draft defines a new TLS Certificate Compression scheme which uses a predistributed dictionary of root and intermediate WebPKI certificates.  The scheme effectively removes the root and intermediate certificates from the TLS certificate chain, which smooths the transition to post-quantum certificates. It also achieves a substantial improvement over existing certificate compression schemes whilst treating CAs and website operators equitably and avoiding any new error handling flows. It may also be of interest in other situations where certificate chains are stored, e.g. Certificate Transparency logs.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This draft defines a new TLS Certificate Compression scheme which uses a shared dictionary of root and intermediate WebPKI certificates. The scheme smooths the transition to post-quantum certificates by eliminating the root and intermediate certificates from the TLS certificate chain without impacting trust negotiation. It also delivers better compression than alternative proposals whilst ensuring fair treatment for both CAs and website operators. It may also be useful in other applications which store certificate chains, e.g. Certificate Transparency logs.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
