@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-07-02T00:48:03.012127+00:00",
+  "timestamp": "2023-07-11T00:40:41.345684+00:00",
   "repo": "dennisjackson/draft-jackson-tls-cert-abridge",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "idea",
+      "description": "",
+      "color": "AFD97B"
     }
   ],
   "issues": [
@@ -89,6 +94,24 @@
           "updatedAt": "2023-06-29T09:59:34Z"
         }
       ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOJmBpI85rFfcR",
+      "title": "Minimize Server-Side Storage: Compression with partial Pass 1 Dictionary",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/issues/6",
+      "state": "OPEN",
+      "author": "dennisjackson",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [
+        "idea"
+      ],
+      "body": "WebPKI clients typically ship most of the pass 1 dictionary already but servers would incur the full disk footprint (~3MB) which might be a barrier to adoption. \r\n\r\nInsight: whilst a full copy of the Pass 1 Dictionary is needed for decompression, compressors can choose to use subsets of the pass 1 dictionary and still interoperate with any decompressor. Obviously they have to keep the same identifiers as in the full dictionary and the outcome is just that less is compressed during pass 1. \r\n\r\nIf we permit this we unlock two additional deployment options. Firstly, operators who know their implementations will only be used with a specific CA (e.g. a major CDN with an in-house CA or a family of IoT devices) need only distribute the actually used certificates in the pass 1 dictionary. Secondly, TLS libraries targeting widespread deployment but not willing to pay the full 3MB cost can choose to ship only the most popular CA certificates according to their storage threshold. Due to the unfortunate centralisation in the CA space, this could be as little as a few KB. This would have the unfortunate effect of encouraging further centralisation.\r\n\r\nNote: This only applies to Pass 1 dictionaries. Pass 2 Zstandard dictionaries must be bitwise identical between compressor and decompressor.  \r\n\r\n",
+      "createdAt": "2023-07-10T11:50:05Z",
+      "updatedAt": "2023-07-10T11:52:26Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
