@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-07-11T00:40:41.345684+00:00",
+  "timestamp": "2023-07-13T00:47:49.770251+00:00",
   "repo": "dennisjackson/draft-jackson-tls-cert-abridge",
   "labels": [
     {
@@ -110,6 +110,38 @@
       "body": "WebPKI clients typically ship most of the pass 1 dictionary already but servers would incur the full disk footprint (~3MB) which might be a barrier to adoption. \r\n\r\nInsight: whilst a full copy of the Pass 1 Dictionary is needed for decompression, compressors can choose to use subsets of the pass 1 dictionary and still interoperate with any decompressor. Obviously they have to keep the same identifiers as in the full dictionary and the outcome is just that less is compressed during pass 1. \r\n\r\nIf we permit this we unlock two additional deployment options. Firstly, operators who know their implementations will only be used with a specific CA (e.g. a major CDN with an in-house CA or a family of IoT devices) need only distribute the actually used certificates in the pass 1 dictionary. Secondly, TLS libraries targeting widespread deployment but not willing to pay the full 3MB cost can choose to ship only the most popular CA certificates according to their storage threshold. Due to the unfortunate centralisation in the CA space, this could be as little as a few KB. This would have the unfortunate effect of encouraging further centralisation.\r\n\r\nNote: This only applies to Pass 1 dictionaries. Pass 2 Zstandard dictionaries must be bitwise identical between compressor and decompressor.  \r\n\r\n",
       "createdAt": "2023-07-10T11:50:05Z",
       "updatedAt": "2023-07-10T11:52:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOJmBpI85rQ6iv",
+      "title": "Remove dependency on CT for Pass 2 Construction",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/issues/7",
+      "state": "OPEN",
+      "author": "dennisjackson",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft currently relies on data fetched from CT to populate the pass 2 dictionary. It would be better to have the CA's provide this data themselves via the CCADB. \r\n\r\nA few choices need to be made. E.g. whether to allow the CA to specify any binary blob they like up to some size limit or to prescribe the data be in a particular format, e.g. a list of extensions. Similarly, does each CA get a size allocation or is each intermediate certificate given an allocation?",
+      "createdAt": "2023-07-11T19:07:55Z",
+      "updatedAt": "2023-07-11T19:10:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOJmBpI85rU8NU",
+      "title": "Compare Brotli with Zstd",
+      "url": "https://github.com/dennisjackson/draft-jackson-tls-cert-abridge/issues/8",
+      "state": "OPEN",
+      "author": "dennisjackson",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft is agnostic as to which compression scheme is used for pass 2 as long as it supports the use of custom shared dictionaries. There's been recent work on a new Brotli format for use with shared dictionaries (IETF [draft](https://datatracker.ietf.org/doc/html/draft-vandevenne-shared-brotli-format-09#section-2)) which might see use in HTTP transports (WICG [draft](https://github.com/WICG/compression-dictionary-transport)). \r\n\r\nSpecific questions: \r\n\r\n1. How does the quality and maturity of software implementations compare? \r\n2. How does compression speed / ratio compare? \r\n3. Does Brotli's existing deployment in TLS Certificate Compression give it an advantage? \r\n4. Are existing Brotli implementations forward compatible with the shared dictionary format? ",
+      "createdAt": "2023-07-12T10:16:53Z",
+      "updatedAt": "2023-07-12T10:16:53Z",
       "closedAt": null,
       "comments": []
     }
